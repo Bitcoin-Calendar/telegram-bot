@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  bitcoin-events-bot:
+    build: .
+    container_name: bitcoin-events-bot
+    environment:
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
+      - API_BASE_URL=${API_BASE_URL}
+      - API_KEY=${API_KEY}
+      - TIMEZONE=${TIMEZONE:-UTC}
+      - LANGUAGE=${LANGUAGE:-en}
+      - WEB_BASE_URL=${WEB_BASE_URL}
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - bot-network
+
+  bitcoin-events-bot-test:
+    build: .
+    container_name: bitcoin-events-bot-test
+    environment:
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - TELEGRAM_CHAT_ID=${TELEGRAM_TEST_CHAT_ID}
+      - API_BASE_URL=${API_BASE_URL}
+      - API_KEY=${API_KEY}
+      - TIMEZONE=${TIMEZONE:-UTC}
+      - LANGUAGE=${LANGUAGE:-en}
+      - WEB_BASE_URL=${WEB_BASE_URL}
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - bot-network
+
+networks:
+  bot-network:
+    driver: bridge
